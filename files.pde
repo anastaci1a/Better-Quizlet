@@ -1,14 +1,18 @@
 import java.io.File;
 
+static interface Serializable {
+    public JSONObject serialize();
+}
+
 
 // --
 
 
 boolean fileExists(String fullPath) {
-  String[] fullPath_split = fullPath.split("\\\\");
+  String[] fullPath_split = fullPath.split("/");
   String filenameToSearch = fullPath_split[fullPath_split.length - 1];
   String dir = "";
-  for (int i = 0; i < fullPath_split.length - 1; i++) dir += fullPath_split[i] + (i < fullPath_split.length - 2 ? "\\" : "");
+  for (int i = 0; i < fullPath_split.length - 1; i++) dir += fullPath_split[i] + (i < fullPath_split.length - 2 ? "/" : "");
   
   java.io.File dirObj = new java.io.File(dir);
   String[] dir_files = dirObj.list();
@@ -47,10 +51,10 @@ void initSets() {
   }
   
   
-  // --
+// --
   
   
-  String metadata_path = dataPath(Config.SAVEDATA_FOLDER_NAME + "\\" + Config.SAVEDATA_META_FILENAME);
+  String metadata_path = dataPath(Config.SAVEDATA_FOLDER_NAME + "/" + Config.SAVEDATA_META_FILENAME);
   boolean metadata_exists = fileExists(metadata_path);
   if (!savedataExists) metadata_exists = false;
   
@@ -106,7 +110,7 @@ void initSets() {
   StringList setsLoaded = new StringList();
   
   for (String setName : setNames_str) {
-    String setCSV_path = dataPath(Config.SAVEDATA_FOLDER_NAME + "\\" + setName + ".csv");
+    String setCSV_path = dataPath(Config.SAVEDATA_FOLDER_NAME + "/" + setName + ".csv");
     boolean setExists = fileExists(setCSV_path);
     
     if (setExists) {
